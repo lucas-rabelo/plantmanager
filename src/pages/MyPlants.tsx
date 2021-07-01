@@ -52,18 +52,26 @@ export function MyPlants() {
         async function loadStorageData() {
             const plantsStoraged = await loadPlant();
 
-            const nextTime = formatDistance(
-                new Date(plantsStoraged[0].dateTimeNotification).getTime(),
-                new Date().getTime(),
-                { locale: pt }
-            );
+            if( plantsStoraged[0] ) {
+                const nextTime = formatDistance(
+                    new Date(plantsStoraged[0].dateTimeNotification).getTime(),
+                    new Date().getTime(),
+                    { locale: pt }
+                );
+    
+                setNextWatered(
+                    `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime} horas.`
+                ) 
+                
+                setMyPlants(plantsStoraged);                
+            }
+            else {
+                setNextWatered(
+                    `Você não tem nenhuma plantinha?! Que tal ter uma então. Escolha uma na nossa página de plantas.`
+                ) 
+            }
 
-            setNextWatered(
-                `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime} horas.`
-            ) 
-            
-            setMyPlants(plantsStoraged);
-            setLoading(false);
+            setLoading(false);  
         }
 
         loadStorageData();
@@ -115,7 +123,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 30,
-        paddingTop: 50,
         backgroundColor: colors.background
     },
     spotlight: {

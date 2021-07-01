@@ -57,7 +57,7 @@ export async function savePlant(plant: PlantProps) : Promise<void> {
         });
 
         const data = await AsyncStorage.getItem('@plantmanager:plants');
-        const oldPants = data ? (JSON.parse(data) as StoragePlantProps) : {};
+        const oldPlants = data ? (JSON.parse(data) as StoragePlantProps) : {};
 
         const newPlant = {
             [plant.id]: {
@@ -69,7 +69,7 @@ export async function savePlant(plant: PlantProps) : Promise<void> {
         await AsyncStorage.setItem('@plantmanager:plants', 
         JSON.stringify({
             ...newPlant,
-            ...oldPants
+            ...oldPlants
         }));
     }catch (error) {
         throw new Error(error);
